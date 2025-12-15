@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Explanation{% endblock %}
+
+{% block content %}
+<div class="explanation-container">
+    <h1 class="heading">Threat Explanation</h1>
+
+    <div class="prediction-box {{ 'threat' if prediction == 1 else 'safe' }}">
+        <p><strong>Prediction:</strong> {{ 'Threat Detected' if prediction == 1 else 'Safe Request' }}</p>
+        <p><strong>Confidence:</strong> {{ (confidence * 100)|round(2) }}%</p>
+    </div>
+
+    <div class="explanation-text">
+        <p>{{ explanation }}</p>
+    </div>
+
+    {% if features %}
+    <div class="issues-box">
+        <h2>Related Features / Issues</h2>
+        <ul>
+            {% for issue in features %}
+                <li>{{ issue }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('index') }}" class="back-link">← Go Back</a>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+.explanation-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.heading {
+    text-align: center;
+    color: #222;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.prediction-box {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.prediction-box.threat {
+    background-color: #ffe5e5;
+    color: #b71c1c;
+    border-left: 5px solid #dc3545;
+}
+
+.prediction-box.safe {
+    background-color: #e5ffe5;
+    color: #1b5e20;
+    border-left: 5px solid #28a745;
+}
+
+.explanation-text {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-left: 4px solid #007BFF;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.issues-box h2 {
+    margin-bottom: 0.5rem;
+    color: #007BFF;
+}
+
+.issues-box ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.issues-box li {
+    margin-bottom: 0.5rem;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.back-link:hover {
+    background-color: #0056b3;
+}
+</style>
+{% endblock %}

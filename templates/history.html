@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Prediction History{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <h2 class="heading">Prediction History</h2>
+
+    {% if past_data %}
+        {% for entry in past_data %}
+            <div class="history-card {{ 'threat' if entry.prediction == 1 else 'safe' }}">
+                <h3>Prediction: 
+                    {% if entry.prediction == 1 %}
+                        Threat Detected
+                    {% else %}
+                        Safe
+                    {% endif %}
+                </h3>
+                <p><strong>Confidence:</strong> {{ (entry.confidence * 100)|round(2) }}%</p>
+
+                {% if entry.warning %}
+                    <p class="warning"><strong>Warning:</strong> {{ entry.warning }}</p>
+                {% endif %}
+
+                {% if entry.issues %}
+                    <p><strong>Issues:</strong></p>
+                    <ul>
+                        {% for issue in entry.issues %}
+                            <li>{{ issue }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if entry.input %}
+                    <p><strong>Input Data:</strong></p>
+                    <ul>
+                        {% for key, value in entry.input.items() %}
+                            <li>{{ key.replace('_', ' ').title() }}: {{ value }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-history">No prediction history available yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+.history-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.heading {
+    text-align: center;
+    color: #222;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.history-card {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.history-card:hover {
+    transform: translateY(-3px);
+}
+
+.history-card h3 {
+    margin-top: 0;
+}
+
+.history-card.threat {
+    border-left: 5px solid #dc3545;
+    background-color: #ffe5e5;
+}
+
+.history-card.safe {
+    border-left: 5px solid #28a745;
+    background-color: #e5ffe5;
+}
+
+.warning {
+    color: #b71c1c;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding-left: 0;
+}
+
+.no-history {
+    text-align: center;
+    color: #777;
+    font-style: italic;
+    margin-top: 2rem;
+}
+</style>
+{% endblock %}
