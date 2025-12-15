@@ -52,19 +52,28 @@ https://github.com/0Manav0/AI-threat-detect-2.git
 
 ---
 
-## 📊 Dataset Requirements & Format
 
-### Supported Dataset Types
-This system is **dataset-agnostic** and can be trained on:
-- Network traffic datasets
-- Intrusion detection datasets
-- Security event or flow logs
-- Synthetic or simulated attack traffic
+### Dataset Requirements
 
-Common public datasets suitable for this architecture include:
-- CICIDS-style datasets  
-- UNSW-NB15-like datasets  
-- Lab-generated or simulated logs  
+The training pipeline expects a **KDD-style network intrusion dataset** in **ARFF format**.
+After preprocessing, a numeric CSV file is generated for model training.
+
+
+#### Raw Input Format
+- File type: `.arff`
+- Structure: Tabular network traffic data
+- Mandatory label column: **`class`**
+
+Each row represents a single network event or flow, and each column represents a feature or label.
+
+---
+
+#### Preprocessing Pipeline
+The preprocessing step:
+- Loads ARFF-formatted data
+- Decodes categorical features
+- Encodes all non-numeric fields using label encoding
+- Outputs a fully numeric CSV file for training
 
 > ⚠ The original datasets used during development are **not included** due to privacy, security, and size considerations.
 
@@ -85,9 +94,9 @@ The preprocessing pipeline expects **tabular data** in **CSV or ARFF** format wi
 | `byte_count`     | Number of bytes transferred |
 | `flow_duration` | Duration of the network flow |
 | `flag_counts`    | TCP flag statistics |
-| `label`          | Normal / Attack (or attack category) |
+| `class`          | Normal / Attack (or attack category) |
 
-✅ The **`label` column is mandatory** for supervised training.
+✅ The **`class` column is mandatory** for supervised training.
 
 ---
 
