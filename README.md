@@ -187,20 +187,37 @@ python src/deploy.py
 Submit requests through the web interface.
 
 📁 Project Structure
+
 cybersecurity-threat-ai/
+
 ├── models/            # Trained ML models
+
 ├── data/              # Input datasets (user-provided)
+
 ├── templates/         # HTML templates
+
 ├── static/            # CSS, JS, assets
+
 ├── src/               # Core AI & API logic
+
 │   ├── preprocess.py
+
 │   ├── train.py
+
 │   ├── predict.py
+
 │   └── deploy.py
+
 ├── requirements.txt
+
 ├── README.md
+
 ├── .gitignore
+
 └── LICENSE
+
+
+
 
 📖 How It Works
 🔍 Data Ingestion
