@@ -2,138 +2,213 @@
 
 ---
 
-## 👥 **TEAM MEMBERS**  
+## 👥 Team Members
 - Garach Viraj  
 - Vaghasiya Jil  
 - Dedakiya Manav  
 
 ---
 
-## 📜 **Disclaimer**  
-*This project uses the publicly available AI model, which is licensed under the MIT License (see [here](https://github.com/mahaswetaroy1/cybersecurity-threat-ai.git)). The model was pre-trained and integrated into this project. All other components, features, and implementation were developed during the hackathon.*
+## 📜 Disclaimer
+This project integrates a **publicly available AI model** licensed under the **MIT License**  
+(reference implementation: https://github.com/mahaswetaroy1/cybersecurity-threat-ai.git).
+
+The model was **pre-trained and adapted** for this system.  
+All **architecture design, preprocessing pipelines, risk scoring logic, API integration, and dashboard components** were developed independently during the hackathon.
 
 ---
 
-## 📌 **Project Overview**  
-Security teams face an overwhelming number of alerts from monitoring systems, leading to **alert fatigue** and the risk of missing critical threats. This project aims to build an **AI-powered system** that intelligently detects, prioritizes, and scores threats in real-time to help cybersecurity teams respond effectively.
+## 📌 Project Overview
+Modern security teams face **alert fatigue** caused by massive volumes of logs and monitoring alerts, increasing the risk of missing critical threats.
 
-The system processes network data, applies machine learning algorithms, and presents actionable insights through a web interface for visualization, alert management, and tracking.
+This project presents an **AI-driven threat detection and prioritization system** that:
+- Detects anomalous behavior in network traffic
+- Assigns dynamic risk scores
+- Prioritizes alerts based on severity
+- Provides visual insights through a web dashboard
 
----
-
-## 📂 **Features**
-
-✅ **Real-time anomaly detection**  
-✅ **Threat scoring and prioritization** based on risk levels  
-✅ **Interactive dashboard** for visual insights and alert management  
-✅ **Machine learning models** including Random Forest, XGBoost, and Neural Networks  
-✅ **Data preprocessing pipelines** for handling imbalanced datasets  
-✅ **Model explainability and reporting** using feature importance and visualization  
-✅ **Secure environment setup** with `.env` configuration  
-✅ **Scalable and modular architecture** for integration with other systems  
+The goal is to improve **SOC efficiency**, **early threat detection**, and **decision-making clarity**.
 
 ---
 
-## Feature trying
-for trying how to get this in your website visit : https://github.com/0Manav0/AI-threat-detect-2.git
+## ✨ Key Features
+- Real-time anomaly detection  
+- Risk-based threat scoring and prioritization  
+- Interactive web dashboard for monitoring and alerts  
+- Machine learning models:
+  - Random Forest
+  - XGBoost
+  - Neural Networks  
+- Robust preprocessing pipeline for imbalanced datasets  
+- Model explainability using feature importance  
+- Secure configuration using environment variables  
+- Modular and scalable architecture  
 
-## 🚀 **Installation**
+---
 
-### ✅ Prerequisites
-- Python 3.11 or above  
-- `pip` installed  
-- Virtual environment tool (`venv` recommended)
+## 🔗 Demo / Integration Example
+To see how this system can be integrated into a website or application, visit:  
+https://github.com/0Manav0/AI-threat-detect-2.git
 
-### ✅ Steps
+---
 
-**1️⃣ Clone the repository:**
+## 📊 Dataset Requirements & Format
+
+### Supported Dataset Types
+This system is **dataset-agnostic** and can be trained on:
+- Network traffic datasets
+- Intrusion detection datasets
+- Security event or flow logs
+- Synthetic or simulated attack traffic
+
+Common public datasets suitable for this architecture include:
+- CICIDS-style datasets  
+- UNSW-NB15-like datasets  
+- Lab-generated or simulated logs  
+
+> ⚠ The original datasets used during development are **not included** due to privacy, security, and size considerations.
+
+---
+
+### Required Data Format
+The preprocessing pipeline expects **tabular data** in **CSV or ARFF** format with features similar to the following:
+
+| Feature Name     | Description |
+|------------------|------------|
+| `timestamp`      | Event or flow timestamp |
+| `src_ip`         | Source IP address |
+| `dst_ip`         | Destination IP address |
+| `src_port`       | Source port |
+| `dst_port`       | Destination port |
+| `protocol`       | Network protocol (TCP, UDP, ICMP, etc.) |
+| `packet_count`   | Number of packets |
+| `byte_count`     | Number of bytes transferred |
+| `flow_duration` | Duration of the network flow |
+| `flag_counts`    | TCP flag statistics |
+| `label`          | Normal / Attack (or attack category) |
+
+✅ The **`label` column is mandatory** for supervised training.
+
+---
+
+### Data Preprocessing
+The preprocessing pipeline includes:
+- Label encoding of categorical features
+- Handling missing or inconsistent values
+- Class imbalance mitigation (oversampling / weighting)
+- Feature normalization where required
+
+Implemented in:
+
+src/preprocess.py
+
+
+---
+
+### Using Your Own Dataset
+1. Place the dataset inside the `data/` directory  
+2. Ensure it follows the feature structure described above  
+3. Run preprocessing:
 ```bash
+python src/preprocess.py
+
+
+Train the model:
+
+python src/train.py
+
+
+Trained models are automatically saved to:
+
+models/
+
+Synthetic & Test Data
+
+For experimentation:
+
+You may use synthetic datasets
+
+Or simulated network traffic matching the schema
+
+This allows testing without exposing real or sensitive data.
+
+🚀 Installation & Setup
+Prerequisites
+
+Python 3.11+
+
+pip
+
+Virtual environment tool (venv recommended)
+
+Installation Steps
+1️⃣ Clone the repository
 git clone https://github.com/0Manav0/AI-threat-detect.git
-⚠ NOTE: YOU MUST SAVE THE MAIN (PARENT) FOLDER AS cybersecurity-threat-ai-main
+cd AI-threat-detect
 
-2️⃣ Create and activate a virtual environment:
-
-bash
-Copy code
+2️⃣ Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate    # For Linux/macOS
-venv\Scripts\activate       # For Windows
-3️⃣ Install the required dependencies:
+source venv/bin/activate      # Linux / macOS
+venv\Scripts\activate         # Windows
 
-bash
-Copy code
+3️⃣ Install dependencies
 pip install -r requirements.txt
-4️⃣ Set up environment variables:
 
-bash
-Copy code
-python -m venv venv
-source venv/bin/activate    # For Linux/macOS
-venv\Scripts\activate       # For Windows
-🟠 Step-by-Step Usage
-A. Preprocess the Data
-Converts ARFF to CSV, applies label encoding.
+🟠 Usage Guide
+A. Preprocess Data
+python src/preprocess.py
 
-bash
-Copy code
-python src\preprocess.py
 B. Train the Model
-Trains a Random Forest classifier on the preprocessed data.
+python src/train.py
 
-bash
-Copy code
-python src\train.py
-C. Test the Model Locally (Optional)
-bash
-Copy code
-python src\predict.py
-D. Deploy the API
-Runs the Flask server for real-time predictions.
+C. Test Predictions (Optional)
+python src/predict.py
 
-bash
-Copy code
-python src\deploy.py
-➡ After that, visit: http://127.0.0.1:5000, pick your request in the form, and submit.
+D. Deploy API
+python src/deploy.py
+
+
+➡ Visit: http://127.0.0.1:5000
+
+Submit requests through the web interface.
 
 📁 Project Structure
-csharp
-Copy code
-cybersecurity-threat-ai-main/
-├── models/                # Trained ML models
-├── data/                  # Input datasets (unzip required)
-├── templates/             # HTML templates
-├── static/                # CSS, JS, and images
-├── src/                   # Python files of AI (deploy.py, train.py, predict.py, preprocess.py)
-├── requirements.txt       # Python dependencies
-├── README.md              # Project documentation
-├── .gitignore             # Git ignore file
-⚠ SPECIAL NOTE:
-Please place preprocessing-checkpoint.ipynb and all .ipynb files inside a folder named .ipynb_checkpoints. Also, unzip the data folder and check for duplicates in it. Sorry for the inconvenience!
+cybersecurity-threat-ai/
+├── models/            # Trained ML models
+├── data/              # Input datasets (user-provided)
+├── templates/         # HTML templates
+├── static/            # CSS, JS, assets
+├── src/               # Core AI & API logic
+│   ├── preprocess.py
+│   ├── train.py
+│   ├── predict.py
+│   └── deploy.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+└── LICENSE
 
 📖 How It Works
 🔍 Data Ingestion
-Network data logs or synthetic datasets are loaded, cleaned, and preprocessed.
+
+Network or log data is loaded, cleaned, and normalized.
 
 📊 Feature Engineering
-Important features like traffic rate, protocol behavior, and historical patterns are calculated.
+
+Traffic behavior, protocol patterns, and statistical features are extracted.
 
 🤖 Model Training
-Algorithms like Random Forest, XGBoost, and Neural Networks are trained on labeled data.
+
+ML models learn patterns distinguishing normal and malicious activity.
 
 🚨 Anomaly Detection
-Incoming data is scored based on the trained models to detect suspicious activity.
+
+Incoming data is scored to detect suspicious behavior.
 
 ⚡ Alert Prioritization
-Alerts are ranked based on severity using statistical thresholds and model output.
+
+Threats are ranked using model confidence and risk scoring logic.
 
 📈 Visualization
-A web dashboard displays charts, graphs, and logs to help analysts make informed decisions.
 
-⚙ Usage
-Run locally for testing and analysis.
-
-Extend models with additional data or tuning parameters.
-
-Deploy using gunicorn, Docker, or cloud platforms like AWS, GCP, or Heroku.
-
-Integrate with other SIEM tools using APIs.
+A dashboard presents alerts, trends, and insights for analysts.
