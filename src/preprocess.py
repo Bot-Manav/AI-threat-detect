@@ -1,35 +1,47 @@
 import pandas as pd
 from scipy.io import arff
 from sklearn.preprocessing import LabelEncoder
+from pathlib import Path
 
 
-# Load ARFF and decode byte strings
-def load_and_preprocess_arff(filepath):
+INPUT_ARFF = "data/full-d/KDDTrain+Multi.arff"
+OUTPUT_CSV = "data/KDDTrain+Multi.csv"
+LABEL_COL = "class"
+
+
+def load_arff(filepath):
+    """Load ARFF file and decode byte strings."""
     data, meta = arff.loadarff(filepath)
     df = pd.DataFrame(data)
     df = df.map(lambda x: x.decode() if isinstance(x, bytes) else x)
     return df
 
 
-# Encode categorical features and the label column
-def encode_features(df, label_col='xAttack'):
+def preprocess_dataframe(df):
+    """
+    Encode categorical features and ensure label column consistency.
+    """
+    if LABEL_COL not in df.columns:
+        raise ValueError(f"Required label column '{LABEL_COL}' not found in dataset")
+
     label_encoders = {}
-    for col in df.select_dtypes(include=['object']).columns:
-        le = LabelEncoder()
-        df[col] = le.fit_transform(df[col])
-        label_encoders[col] = le
+
+    for col in df.columns:
+        if df[col].dtype == "object":
+            le = LabelEncoder()
+            df[col] = le.fit_transform(df[col])
+            label_encoders[col] = le
+
     return df, label_encoders
 
 
-# Save DataFrame to CSV
-def save_to_csv(df, output_path):
+def save_csv(df, output_path):
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, index=False)
-    print(f"Saved preprocessed data to {output_path}")
+    print(f"[+] Preprocessed data saved to {output_path}")
 
 
 if __name__ == "__main__":
-    input_path = "data/full-d/KDDTrain+Multi.arff"
-    output_path = "data/KDDTrain+Multi.csv"
-    df = load_and_preprocess_arff(input_path)
-    df, encoders = encode_features(df)
-    save_to_csv(df, output_path)
+    df = load_arff(INPUT_ARFF)
+    df, encoders = preprocess_dataframe(df)
+    save_csv(df, OUTPUT_CSV)
