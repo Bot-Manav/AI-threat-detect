@@ -111,12 +111,12 @@ src/preprocess.py
 3. Run preprocessing:
 ```bash
 python src/preprocess.py
-
+```
 
 Train the model:
-
+```bash
 python src/train.py
-
+```
 
 Trained models are automatically saved to:
 
@@ -143,29 +143,43 @@ Virtual environment tool (venv recommended)
 
 Installation Steps
 1️⃣ Clone the repository
-git clone https://github.com/0Manav0/AI-threat-detect.git
+git clone 
+```bash
+https://github.com/0Manav0/AI-threat-detect.git
 cd AI-threat-detect
+```
 
 2️⃣ Create and activate virtual environment
+```bash
 python -m venv venv
 source venv/bin/activate      # Linux / macOS
 venv\Scripts\activate         # Windows
+```
 
 3️⃣ Install dependencies
+```bash
 pip install -r requirements.txt
-
+```
 🟠 Usage Guide
 A. Preprocess Data
+```bash
 python src/preprocess.py
+```
 
 B. Train the Model
+```bash
 python src/train.py
+```
 
 C. Test Predictions (Optional)
+```bash
 python src/predict.py
+```
 
 D. Deploy API
+```bash
 python src/deploy.py
+```
 
 
 ➡ Visit: http://127.0.0.1:5000
